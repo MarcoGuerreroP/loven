@@ -5,9 +5,9 @@ import 'package:loven_app/pages/utils/alert.dart';
 
 
 
-class LoginPage extends StatelessWidget {
-  
 
+class RegistroPage extends StatelessWidget {
+  
   final usuarioProvider = new UsuarioProvider();
 
   @override
@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                ),
             child :Column(
               children: <Widget>[
-                Text('Iniciar Sesion', style: TextStyle(fontSize: 20.0)),
+                Text('Crear Cuenta', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 40.0),
                 _crearEmail(bloc),
                 SizedBox(height: 20.0),
@@ -68,14 +68,15 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 20.0),
                 _crearBoton(bloc)
                 
+                
             ],
             ),
 
           ),
           SizedBox(height: 15.0),
           FlatButton(
-            child: Text('Registrar una cuenta'),
-            onPressed: ()=> Navigator.pushReplacementNamed(context, 'registro'),
+            child: Text('¿Ya tienes una cuenta ? login'),
+            onPressed: ()=> Navigator.pushReplacementNamed(context, 'login'),
           ),
           
         ],
@@ -168,7 +169,7 @@ class LoginPage extends StatelessWidget {
         elevation:0.0 ,
         color: Color(0xff131d47),
         textColor: Colors.white,
-        onPressed: snapshot.hasData ? ()=> _login(bloc, context)  :null,
+        onPressed: snapshot.hasData ? ()=> _registro(bloc, context)  :null,
       );
 
 
@@ -183,17 +184,15 @@ class LoginPage extends StatelessWidget {
 
   }
 
-  _login(LoginBloc bloc, BuildContext context) async {
+  _registro(LoginBloc bloc, BuildContext context) async {
+    final info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
     
-     Map info = await usuarioProvider.logeo(bloc.email, bloc.password);
-
-     if(info['ok']){
+    if(info['ok']){
         Navigator.pushReplacementNamed(context, 'home');
      }else {
        mostrarAlerta(context, info['mensaje']);
      }
-
-     
+    
   }
 
 
@@ -268,12 +267,13 @@ class LoginPage extends StatelessWidget {
           );
       
         }
+        
       
         
       
       
       
       
-      }
+}
       
       
